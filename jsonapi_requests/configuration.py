@@ -1,17 +1,16 @@
 from collections import namedtuple
 
-
 Configuration = namedtuple(
     'Configuration',
     ['API_ROOT', 'AUTH', 'VALIDATE_SSL', 'TIMEOUT', 'APPEND_SLASH', 'RETRIES']
 )
 
 
-class Factory:
+class Factory(object):
     def __init__(self, config_dict):
         self._config_dict = config_dict
 
-    def create(self) -> Configuration:
+    def create(self):
         return Configuration(
             API_ROOT=self.API_ROOT,
             AUTH=self.AUTH,

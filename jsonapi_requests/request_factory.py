@@ -1,14 +1,15 @@
-from urllib import parse
+try:
+    from urllib import parse
+except ImportError:
+    import urlparse as parse
+import json
 
 import requests
 import tenacity
 
-from jsonapi_requests import configuration
-from jsonapi_requests import data
 
-
-class ApiRequestFactory:
-    def __init__(self, config: configuration.Configuration):
+class ApiRequestFactory(object):
+    def __init__(self, config):
         self.config = config
 
     def get(self, api_path, **kwargs):
@@ -26,11 +27,13 @@ class ApiRequestFactory:
     def patch(self, api_path, **kwargs):
         return self.request(api_path, 'PATCH', **kwargs)
 
-    def request(self, api_path, method, *, object:data.JsonApiObject=None, **kwargs):
+    def request(self, api_path, method, object=None, **kwargs):
         url = self._build_absolute_url(api_path)
+
         if object is not None:
             assert 'json' not in kwargs
             kwargs['json'] = {'data': object.as_data()}
+
         return self.retrying.call(self._request, url, method, **kwargs)
 
     @property
@@ -95,22 +98,13 @@ class ApiRequestFactory:
             return ApiResponse(response.status_code, payload)
 
 
-class ApiResponse:
+class ApiResponse(object):
     def __init__(self, status_code, payload):
         self.status_code = status_code
         self.payload = payload
 
-    @property
-    def data(self):
-        data = self.content.data
-        if data is None:
-            return {}
-        else:
-            return data
-
-    @property
-    def content(self):
-        return data.JsonApiResponse.from_data(self.payload)
+    def get_data(self, schema):
+        return schema.loads(json.dumps(self.payload)).data
 
     def __repr__(self):
         return '<ApiResponse({})>'.format(self.payload)

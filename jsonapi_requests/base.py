@@ -1,8 +1,10 @@
 from jsonapi_requests import configuration
 from jsonapi_requests import request_factory
+from jsonapi_requests.endpoint import ListRequestEndpoint
+from jsonapi_requests.endpoint import SingleRequestEndpoint
 
 
-class Api:
+class Api(object):
     @classmethod
     def config(cls, dict_or_config=None, **kwargs):
         config_dict = {}
@@ -15,29 +17,13 @@ class Api:
         config_dict.update(kwargs)
         return cls(configuration.Factory(config_dict).create())
 
-    def __init__(self, config: configuration.Configuration):
+    def __init__(self, config):
         self.requests = request_factory.ApiRequestFactory(config)
 
-    def endpoint(self, path):
-        return Endpoint(path, self.requests)
+    def endpoint(self, path, *args, **kwargs):
+        single = kwargs.pop('single', False)
 
-
-class Endpoint:
-    def __init__(self, path, requests):
-        self.path = path
-        self.requests = requests
-
-    def get(self, **kwargs):
-        return self.requests.get(self.path, **kwargs)
-
-    def post(self, **kwargs):
-        return self.requests.post(self.path, **kwargs)
-
-    def delete(self, **kwargs):
-        return self.requests.delete(self.path, **kwargs)
-
-    def put(self, **kwargs):
-        return self.requests.put(self.path, **kwargs)
-
-    def patch(self, **kwargs):
-        return self.requests.patch(self.path, **kwargs)
+        if single:
+            return SingleRequestEndpoint(path, self.requests, *args, **kwargs)
+        else:
+            return ListRequestEndpoint(path, self.requests, *args, **kwargs)

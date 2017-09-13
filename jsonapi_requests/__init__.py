@@ -1,5 +1,7 @@
-from .base import Api
-from .data import JsonApiObject
-from . import orm
+from jsonapi_requests.base import Api
+from jsonapi_requests.filter import Filter
 
-__all__ = [Api, JsonApiObject, orm]
+__all__ = [
+    Api,
+    Filter,
+]
