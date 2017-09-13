@@ -1,2 +1,3 @@
+pydash
 requests
 tenacity
