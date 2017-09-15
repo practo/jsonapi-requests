@@ -3,7 +3,7 @@ from setuptools import find_packages
 from setuptools import setup
 
 setup(
-    name='jsonapi-requests',
+    name='flask-rest-jsonapi-requests',
     version='0.3.3',
     description='Flask-REST-JSONAPI client implementation. http://jsonapi.org/',
     author='Anurag Agarwal',
