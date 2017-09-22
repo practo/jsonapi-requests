@@ -4,7 +4,7 @@ from setuptools import setup
 
 setup(
     name='flask-rest-jsonapi-requests',
-    version='0.3.3',
+    version='0.3.4',
     description='Flask-REST-JSONAPI client implementation. http://jsonapi.org/',
     author='Anurag Agarwal',
     author_email='anurag.a@practo.com',
