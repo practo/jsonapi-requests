@@ -2,7 +2,15 @@ from collections import namedtuple
 
 Configuration = namedtuple(
     'Configuration',
-    ['API_ROOT', 'AUTH', 'VALIDATE_SSL', 'TIMEOUT', 'APPEND_SLASH', 'RETRIES']
+    [
+        'API_ROOT',
+        'AUTH',
+        'VALIDATE_SSL',
+        'TIMEOUT',
+        'APPEND_SLASH',
+        'RETRIES',
+        'HEADERS',
+    ]
 )
 
 
@@ -18,6 +26,7 @@ class Factory(object):
             TIMEOUT=self.TIMEOUT,
             APPEND_SLASH=self.APPEND_SLASH,
             RETRIES=self.RETRIES,
+            HEADERS=self.HEADERS,
         )
 
     @property
@@ -46,3 +55,7 @@ class Factory(object):
     @property
     def RETRIES(self):
         return self._config_dict.get('RETRIES', 3)
+
+    @property
+    def HEADERS(self):
+        return self._config_dict.get('HEADERS', {})
