@@ -7,6 +7,8 @@ import json
 import requests
 import tenacity
 
+from jsonapi_requests.utils import dict_merge
+
 
 class ApiRequestFactory(object):
     def __init__(self, config):
@@ -56,8 +58,8 @@ class ApiRequestFactory(object):
 
     def _request(self, absolute_url, method, **kwargs):
         options = self.default_options
-        options.update(self.configured_options)
-        options.update(kwargs)
+        dict_merge(options, self.configured_options)
+        dict_merge(options, kwargs)
         try:
             response = requests.request(method, absolute_url, **options)
         except (requests.ConnectionError, requests.Timeout):
