@@ -60,7 +60,7 @@ class AbstractRequestEndpoint(object):
 
 
 class SingleRequestEndpoint(AbstractRequestEndpoint):
-    def post(self):
+    def delete(self):
         return self._requests.delete(self.endpoint, params=self.request_params)
 
     def put(self):
