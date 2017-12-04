@@ -55,19 +55,23 @@ class AbstractRequestEndpoint(object):
 
         return endpoint_
 
-    def get(self):
-        return self._requests.get(self.endpoint, params=self.request_params)
+    def get(self, **kwargs):
+        return self._requests.get(
+            self.endpoint,
+            params=self.request_params,
+            **kwargs
+        )
 
 
 class SingleRequestEndpoint(AbstractRequestEndpoint):
-    def delete(self):
-        return self._requests.delete(self.endpoint, params=self.request_params)
+    def delete(self, **kwargs):
+        return self._requests.delete(self.endpoint, **kwargs)
 
-    def put(self):
-        return self._requests.put(self.endpoint, params=self.request_params)
+    def put(self, **kwargs):
+        return self._requests.put(self.endpoint, **kwargs)
 
-    def patch(self):
-        return self._requests.patch(self.endpoint, params=self.request_params)
+    def patch(self, **kwargs):
+        return self._requests.patch(self.endpoint, **kwargs)
 
 
 class ListRequestEndpoint(AbstractRequestEndpoint):
@@ -106,5 +110,5 @@ class ListRequestEndpoint(AbstractRequestEndpoint):
             },
         )
 
-    def post(self):
-        return self._requests.post(self.endpoint, params=self.request_params)
+    def post(self, **kwargs):
+        return self._requests.post(self.endpoint, **kwargs)
